@@ -5,7 +5,7 @@ Aplicacion para verificar las consolidaciones realizadas en Super Promociones de
 La aplicacion es desarrollada en el lenguaje de java, utilizando la version 8 de java, e implementando las siguientes tecnologias y recursos.
 
 - Maven (Como administrador de librerias)
-- JKD v1.8.0_191-b12
+- JDK v1.8.0_191-b12
 - JRE v1.8.0_191-b12
 - sqljdbc4 v4.2.6225.100
 - json v20201115
