@@ -145,6 +145,14 @@ public class controllerConsolidacion {
             }
 
             tablaConsolidacion.setModel(modelo);
+            
+            tablaConsolidacion.getColumnModel().getColumn(0).setPreferredWidth(40);
+            tablaConsolidacion.getColumnModel().getColumn(1).setPreferredWidth(40);
+            tablaConsolidacion.getColumnModel().getColumn(2).setPreferredWidth(40);
+            tablaConsolidacion.getColumnModel().getColumn(3).setPreferredWidth(40);
+            tablaConsolidacion.getColumnModel().getColumn(4).setPreferredWidth(40);
+            tablaConsolidacion.getColumnModel().getColumn(5).setPreferredWidth(120);
+            tablaConsolidacion.getColumnModel().getColumn(7).setPreferredWidth(40);
         }
         
         return "";

@@ -40,7 +40,7 @@ public class PaintRowTable extends DefaultTableCellRenderer {
             setBackground(Color.WHITE);
             setForeground(Color.BLACK);
         }
-           
+        
         setBorder(new LineBorder(Color.GRAY));
 //        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(255, 255, 255)));
         setOpaque(true);

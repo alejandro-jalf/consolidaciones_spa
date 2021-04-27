@@ -220,6 +220,14 @@ public class index extends javax.swing.JFrame {
         for (int i = 0; i < 20; i++) { modeloTable.addRow(rowExample); }
         
         tableConsolidaciones.setModel(modeloTable);
+        
+        tableConsolidaciones.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tableConsolidaciones.getColumnModel().getColumn(1).setPreferredWidth(40);
+        tableConsolidaciones.getColumnModel().getColumn(2).setPreferredWidth(40);
+        tableConsolidaciones.getColumnModel().getColumn(3).setPreferredWidth(40);
+        tableConsolidaciones.getColumnModel().getColumn(4).setPreferredWidth(40);
+        tableConsolidaciones.getColumnModel().getColumn(5).setPreferredWidth(120);
+        tableConsolidaciones.getColumnModel().getColumn(7).setPreferredWidth(40);
     }
     
     private void setButtons() {
