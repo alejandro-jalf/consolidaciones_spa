@@ -300,10 +300,14 @@ public class controllerConsolidacion {
             listDocumensByReferencia.put("entradaJaltipan", listEntradasJL);
         }
         if (listDocumensByReferencia.getString("listDocumentsBodega").length() > 0) {
+            String hostConsult = (
+                conf.getHostName().equals("LocalHost") &&
+                conf.getDatabaseName().equals("SPABODEGA")
+            ) ? conf.getHostLocal() : conf.getHostBodega();
             listEntradasBO = models.getEntradasToday(
                 dateInicio,
                 dateFinal,
-                conf.getHostBodega(),
+                hostConsult,
                 conf.getDatabaseBodega(),
                 listDocumensByReferencia.getString("listDocumentsBodega")
             );
