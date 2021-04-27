@@ -31,7 +31,7 @@ public class controllerConsolidacion {
     private String password = "";
     private JSONArray data = null;
     private JTable tablaConsolidacion = null;
-    private String rowExample[] = new String[7];
+    private String rowExample[] = new String[8];
     private String dateArray[] = null;
     private String hourArray[] = null;
     private String resultado = "";
@@ -113,7 +113,8 @@ public class controllerConsolidacion {
             modelo.addColumn("Hora");
             modelo.addColumn("Transferencia");
             modelo.addColumn("Entrada");
-            modelo.addColumn("Destino");
+            modelo.addColumn("Referencia");
+            modelo.addColumn("Almacen Destino");
             modelo.addColumn("Observaciones");
             modelo.addColumn("Estatus");
 
@@ -122,7 +123,7 @@ public class controllerConsolidacion {
             for (int i = 0; i < data.length(); i++) {
                 item = data.getJSONObject(i);
                 document = item.getString("Entrada");
-                saveTransferencias(item.getString("Referencia"), document);
+                saveTransferencias(item.getString("AlmacenDestino"), document);
             }
 
             getDocumentsToday(dateInicio, dateFinal);
@@ -135,9 +136,10 @@ public class controllerConsolidacion {
                 rowExample[1] = parseHour(item.getString("Hora"));
                 rowExample[2] = item.getString("Documento");
                 rowExample[3] = item.getString("Entrada");
-                rowExample[4] = item.getString("Referencia");
-                rowExample[5] = item.getString("Observaciones");
-                rowExample[6] = getVerificacion(item.getString("Referencia"), document);
+                rowExample[4] = item.getString("Referencia").toUpperCase();
+                rowExample[5] = item.getString("AlmacenDestino");
+                rowExample[6] = item.getString("Observaciones");
+                rowExample[7] = getVerificacion(item.getString("AlmacenDestino"), document);
 
                 modelo.addRow(rowExample);
             }
@@ -151,7 +153,7 @@ public class controllerConsolidacion {
     private void saveTransferencias(String referencia, String transferencia) {
         referencia = referencia.toLowerCase().trim();
         listDocumentsSucursales = "";
-        if (referencia.equals("zaragoza")) {
+        if (referencia.equals("spa-super1-punto de venta")) {
             listTranferenciasZR = listDocumensByReferencia.getJSONArray("transferenciasZaragoza");
             listTranferenciasZR.put(transferencia);
             listDocumensByReferencia.put("transferenciasZaragoza", listTranferenciasZR);
@@ -162,7 +164,7 @@ public class controllerConsolidacion {
             listDocumentsSucursales += transferencia + "'";
             listDocumensByReferencia.put("listDocumentsZaragoza", listDocumentsSucursales);
         }
-        if (referencia.equals("centro") || referencia.equals("victoria")) {
+        if (referencia.equals("spa-centro-punto de venta")) {
             listTranferenciasVC = listDocumensByReferencia.getJSONArray("transferenciasCentro");
             listTranferenciasVC.put(transferencia);
             listDocumensByReferencia.put("transferenciasCentro", listTranferenciasVC);
@@ -173,7 +175,7 @@ public class controllerConsolidacion {
             listDocumentsSucursales += transferencia + "'";
             listDocumensByReferencia.put("listDocumentsCentro", listDocumentsSucursales);
         }
-        if (referencia.equals("oluta")) {
+        if (referencia.equals("spa-oluta-punto de venta")) {
             listTranferenciasOU = listDocumensByReferencia.getJSONArray("transferenciasOluta");
             listTranferenciasOU.put(transferencia);
             listDocumensByReferencia.put("transferenciasOluta", listTranferenciasOU);
@@ -184,7 +186,7 @@ public class controllerConsolidacion {
             listDocumentsSucursales += transferencia + "'";
             listDocumensByReferencia.put("listDocumentsOluta", listDocumentsSucursales);
         }
-        if (referencia.equals("jaltipan")) {
+        if (referencia.equals("spa-jaltipan-punto de venta")) {
             listTranferenciasJL = listDocumensByReferencia.getJSONArray("transferenciasJaltipan");
             listTranferenciasJL.put(transferencia);
             listDocumensByReferencia.put("transferenciasJaltipan", listTranferenciasJL);
@@ -195,11 +197,7 @@ public class controllerConsolidacion {
             listDocumentsSucursales += transferencia + "'";
             listDocumensByReferencia.put("listDocumentsJaltipan", listDocumentsSucursales);
         }
-        if (
-            referencia.equals("bodega") ||
-            referencia.equals("bocardo") ||
-            referencia.equals("bodega bocardo")
-        ) {
+        if (referencia.equals("bodega bocardo")) {
             listTranferenciasBO = listDocumensByReferencia.getJSONArray("transferenciasBodega");
             listTranferenciasBO.put(transferencia);
             listDocumensByReferencia.put("transferenciasBodega", listTranferenciasBO);
@@ -294,15 +292,11 @@ public class controllerConsolidacion {
         referencia = referencia.toLowerCase().trim();
         resultado = "Fallo";
         JSONArray dataSucursalesThi = new JSONArray();
-        if (referencia.equals("zaragoza")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaZaragoza");
-        if (referencia.equals("centro") || referencia.equals("victoria")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaCentro");
-        if (referencia.equals("oluta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaOluta");
-        if (referencia.equals("jaltipan")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaJaltipan");
-        if (
-            referencia.equals("bodega") ||
-            referencia.equals("bocardo") ||
-            referencia.equals("bodega bocardo")
-        ) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaBodega");
+        if (referencia.equals("spa-super1-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaZaragoza");
+        if (referencia.equals("spa-centro-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaCentro");
+        if (referencia.equals("spa-oluta-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaOluta");
+        if (referencia.equals("spa-jaltipan-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaJaltipan");
+        if (referencia.equals("bodega bocardo")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaBodega");
         
         if (dataSucursalesThi.length() == 2) {
             try {

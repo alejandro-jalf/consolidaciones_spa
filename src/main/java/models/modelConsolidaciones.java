@@ -65,14 +65,15 @@ public class modelConsolidaciones {
                 ")\n" +
                 "\n" +
                 "SELECT\n" +
-                "    T.Fecha, T.Documento, T.Referencia, T.DescripcionAlmacen, T.Hora, E.Documento AS Entrada, T.Observaciones\n" +
+                "    T.Fecha, T.Documento, T.Referencia, T.DescripcionAlmacen, T.Hora, E.Documento AS Entrada, T.Observaciones,\n" +
+                "    E.DescripcionAlmacen AS AlmacenDestinoEntrada\n" +
                 "FROM QVDEMovAlmacen AS E\n" +
                 "INNER JOIN tranferencias AS T\n" +
                 "ON E.Referencia = T.Documento\n" +
                 "WHERE TipoDocumento = 'A'\n" +
                 "    AND E.Estatus = 'E'\n" +
                 "    AND E.Fecha BETWEEN CAST('" + dateInicio + "' AS datetime) AND CAST('" + dateFinal + "' AS datetime)\n" +
-                "GROUP BY T.Fecha, T.Documento, T.Referencia, T.DescripcionAlmacen, T.Hora, E.Documento, T.Observaciones\n" +
+                "GROUP BY T.Fecha, T.Documento, T.Referencia, T.DescripcionAlmacen, T.Hora, E.Documento, T.Observaciones, E.DescripcionAlmacen\n" +
                 "ORDER BY T.Fecha DESC, T.Hora DESC";
             stmt = con.createStatement();
             rs = stmt.executeQuery(SQL);
@@ -86,6 +87,7 @@ public class modelConsolidaciones {
                 row.put("Hora", rs.getString("Hora"));
                 row.put("Entrada", rs.getString("Entrada"));
                 row.put("Observaciones", rs.getString("Observaciones"));
+                row.put("AlmacenDestino", rs.getString("AlmacenDestinoEntrada"));
                 data.put(row);
                 
 //                System.out.println(rs.getString("Fecha") + " " + rs.getString("Documento") +

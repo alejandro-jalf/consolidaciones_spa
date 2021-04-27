@@ -28,7 +28,7 @@ import utils.LoaderInstancias;
 public class index extends javax.swing.JFrame {
 
     private DefaultTableModel modeloTable = new DefaultTableModel();
-    private String rowExample[] = {"","","","","", "", ""};
+    private String rowExample[] = {"","","","","", "", "", ""};
     private controllerConsolidacion controller = null;
     private index objIdex = null;
     private SimpleDateFormat Formato;
@@ -212,7 +212,8 @@ public class index extends javax.swing.JFrame {
         modeloTable.addColumn("Hora");
         modeloTable.addColumn("Documento");
         modeloTable.addColumn("Entrada");
-        modeloTable.addColumn("Destino");
+        modeloTable.addColumn("Referencia");
+        modeloTable.addColumn("Almacen Destino");
         modeloTable.addColumn("Observaciones");
         modeloTable.addColumn("Estatus");
         

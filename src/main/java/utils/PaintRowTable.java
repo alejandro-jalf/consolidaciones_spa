@@ -25,7 +25,7 @@ public class PaintRowTable extends DefaultTableCellRenderer {
  
 //        component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
 
-        resultado = (String) table.getValueAt(row, 6);
+        resultado = (String) table.getValueAt(row, 7);
 //        System.out.println( row + (String) table.getValueAt(row, 4) + " " + (String) table.getValueAt(row, 5) + "  " + resultado);
         
         if (resultado.equals("Fallo")) {
@@ -40,7 +40,7 @@ public class PaintRowTable extends DefaultTableCellRenderer {
             setBackground(Color.WHITE);
             setForeground(Color.BLACK);
         }
-        
+           
         setBorder(new LineBorder(Color.GRAY));
 //        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(255, 255, 255)));
         setOpaque(true);
