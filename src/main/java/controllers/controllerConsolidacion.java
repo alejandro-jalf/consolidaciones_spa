@@ -45,11 +45,11 @@ public class controllerConsolidacion {
     private JFrame ventana = null;
     private LoaderInstancias loaderInstancias = null;
     
-    public controllerConsolidacion(LoaderInstancias loaderInstancias) {
+    public controllerConsolidacion(LoaderInstancias loaderInstancias, config conf) {
         this.loaderInstancias = loaderInstancias;
         this.ventana = loaderInstancias.getVentana();
         this.tablaConsolidacion = loaderInstancias.getTableConsolidaciones();
-        this.conf = new config(loaderInstancias);
+        this.conf = conf;
         this.host = conf.getHostLocal();
         this.port = conf.getPort();
         this.database = conf.getDatabaseLocal(); 
@@ -71,8 +71,8 @@ public class controllerConsolidacion {
         this.listEntradasBO = new JSONArray();
         this.listEntradasSA = new JSONArray();
         
-        loaderInstancias.getLabelHost().setText(conf.getHostName());
-        loaderInstancias.getLabelDatabase().setText(conf.getDatabaseName());
+        loaderInstancias.getLabelHost().setText(conf.getHostName().toUpperCase());
+        loaderInstancias.getLabelDatabase().setText(conf.getDatabaseName().toUpperCase());
         
         this.models = new modelConsolidaciones(this.host, this.port, this.database, this.user, this.password, loaderInstancias);
     }
@@ -100,7 +100,7 @@ public class controllerConsolidacion {
         listDocumensByReferencia.put("transferenciasSanAndres", listTranferenciasSA);
         
 
-        data = models.getTransferenciasToday(dateInicio, dateFinal, this.host, this.database);
+        data = models.getTransferenciasToday(dateInicio, dateFinal, conf.getHostLocal(), conf.getDatabaseLocal());
         document = "";
         if (data != null){
             if (data.length() == 2) {
@@ -379,36 +379,5 @@ public class controllerConsolidacion {
     private String parseHour(String hour) {
         hourArray = hour.split(" ");
         return hourArray[1];
-    }
-    
-    private Boolean changeHostAndDatabase(String host) {
-        host = host.toLowerCase().trim();
-        if (host.equals("zr")) {
-            this.host = conf.getHostSuper1();
-            this.database = conf.getDatabaseSuper1();
-            return true;
-        }
-        if (host.equals("vc")) {
-            this.host = conf.getHostVictoria();
-            this.database = conf.getDatabaseVictoria();
-            return true;
-        }
-        if (host.equals("ou")) {
-            this.host = conf.getHostSuper1();
-            this.database = conf.getDatabaseSuper1();
-            return true;
-        }
-        if (host.equals("jl")) {
-            this.host = conf.getHostJaltipan();
-            this.database = conf.getDatabaseJaltipan();
-            return true;
-        }
-        if (host.equals("bo")) {
-            this.host = conf.getHostBodega();
-            this.database = conf.getDatabaseBodega();
-            return true;
-        }
-   
-        return false;
     }
 }

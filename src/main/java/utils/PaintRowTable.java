@@ -17,17 +17,13 @@ import javax.swing.table.DefaultTableCellRenderer;
  */
 public class PaintRowTable extends DefaultTableCellRenderer {
     
-//    private Component component;
     private String resultado = "Fallo";
     
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
  
-//        component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
-
         resultado = (String) table.getValueAt(row, 7);
-//        System.out.println( row + (String) table.getValueAt(row, 4) + " " + (String) table.getValueAt(row, 5) + "  " + resultado);
-        
+       
         if (resultado.equals("Fallo")) {
             setBackground(Color.YELLOW);
             setForeground(Color.BLACK);
@@ -42,7 +38,6 @@ public class PaintRowTable extends DefaultTableCellRenderer {
         }
         
         setBorder(new LineBorder(Color.GRAY));
-//        setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 1, new java.awt.Color(255, 255, 255)));
         setOpaque(true);
         
         return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);

@@ -18,8 +18,10 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import javax.swing.JOptionPane;
+import panels.Origin;
 import utils.PaintRowTable;
 import utils.LoaderInstancias;
+import configs.config;
 
 /**
  *
@@ -36,6 +38,8 @@ public class index extends javax.swing.JFrame {
     private String fechaIni[] = null, fechaFin[] = null;
     private LoaderInstancias loaderInstancias = null;
     private Calendar calendar = null;
+    private Origin origin = null;
+    private config conf = null;
     
     public index() {
         try {
@@ -46,6 +50,10 @@ public class index extends javax.swing.JFrame {
             setTable();
             setButtons();
             
+            
+            this.conf = new config(loaderInstancias);
+            origin = new Origin(dialogOrigin, loaderInstancias, conf);
+            origin.setBackground(Color.WHITE);
             this.objIdex = this;
         
             tableConsolidaciones.setDefaultRenderer(Object.class, new PaintRowTable());
@@ -54,7 +62,7 @@ public class index extends javax.swing.JFrame {
             loaderInstancias.setVentana(this);
             loaderInstancias.setLabelHost(textHost);
             loaderInstancias.setLabelDatabase(textDatabase);
-            controller = new controllerConsolidacion(loaderInstancias);
+            controller = new controllerConsolidacion(loaderInstancias, conf);
             calendar = new GregorianCalendar();
             dateFinal.setCalendar(calendar);
             dateInicio.setCalendar(calendar);
@@ -64,6 +72,7 @@ public class index extends javax.swing.JFrame {
             
             this.setTitle("Consolidaciones SPA");
             this.setLocationRelativeTo(null);
+            tableConsolidaciones.requestFocus();
             this.setIconImage(new ImageIcon(getClass().getResource("/contents/r.png")).getImage());
         } catch (Exception e) {
             System.out.println("No se pudo cargar el icono" + e);
@@ -77,6 +86,7 @@ public class index extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dialogOrigin = new javax.swing.JDialog();
         btnSearch = new javax.swing.JButton();
         dateInicio = new com.toedter.calendar.JDateChooser();
         jLabel1 = new javax.swing.JLabel();
@@ -90,6 +100,17 @@ public class index extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         textDatabase = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
+
+        javax.swing.GroupLayout dialogOriginLayout = new javax.swing.GroupLayout(dialogOrigin.getContentPane());
+        dialogOrigin.getContentPane().setLayout(dialogOriginLayout);
+        dialogOriginLayout.setHorizontalGroup(
+            dialogOriginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        dialogOriginLayout.setVerticalGroup(
+            dialogOriginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
+        );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 255, 255));
@@ -144,12 +165,12 @@ public class index extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jLabel3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(textHost, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(24, 24, 24)
+                .addComponent(textHost, javax.swing.GroupLayout.PREFERRED_SIZE, 98, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel4)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(textDatabase, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 400, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addContainerGap())
         );
@@ -228,6 +249,15 @@ public class index extends javax.swing.JFrame {
         tableConsolidaciones.getColumnModel().getColumn(4).setPreferredWidth(40);
         tableConsolidaciones.getColumnModel().getColumn(5).setPreferredWidth(120);
         tableConsolidaciones.getColumnModel().getColumn(7).setPreferredWidth(40);
+        
+        tableConsolidaciones.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.isControlDown() && e.isAltDown() && e.getKeyCode() == 67) {
+                    showDialog();
+                }
+            }
+        });
     }
     
     private void setButtons() {
@@ -272,9 +302,11 @@ public class index extends javax.swing.JFrame {
         btnSearch.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                System.out.println("Presionado en btn: " + e.getKeyCode());
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     btnSearch.doClick();
+                }
+                if (e.isControlDown() && e.isAltDown() && e.getKeyCode() == 67) {
+                    showDialog();
                 }
             }
         });
@@ -289,6 +321,19 @@ public class index extends javax.swing.JFrame {
         btnSearch.setEnabled(enabled);
         dateFinal.setEnabled(enabled);
         dateInicio.setEnabled(enabled);
+    }
+    
+    private void showDialog() {
+        dialogOrigin.setContentPane(origin);
+        dialogOrigin.setVisible(true);
+        dialogOrigin.setSize(460, 250);
+        dialogOrigin.setLocationRelativeTo(null);
+        dialogOrigin.setTitle("Datos de la conexion");
+        try {
+            dialogOrigin.setIconImage(new ImageIcon(getClass().getResource("/contents/r.png")).getImage());
+        } catch (Exception err) {
+            System.out.println("Error: " + err);
+        }
     }
     
     /**
@@ -325,12 +370,6 @@ public class index extends javax.swing.JFrame {
                 obj.getContentPane().setBackground(Color.WHITE);
                 obj.setExtendedState(MAXIMIZED_BOTH);
                 obj.setVisible(true);
-                obj.getContentPane().addKeyListener(new KeyAdapter() {
-                    @Override
-                    public void keyReleased(KeyEvent e) {
-                        System.out.println("Suelta: ");
-                    }
-                });
             }
         });
     }
@@ -339,6 +378,7 @@ public class index extends javax.swing.JFrame {
     private javax.swing.JButton btnSearch;
     private com.toedter.calendar.JDateChooser dateFinal;
     private com.toedter.calendar.JDateChooser dateInicio;
+    private javax.swing.JDialog dialogOrigin;
     private javax.swing.JPanel footer;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

@@ -121,4 +121,31 @@ public class ReadFileJSon {
             e.printStackTrace();
         }
     }
+    
+    public boolean setConfigHostAndDatabase(String host, String database) {
+        try {
+            String contenido = "{\n" +
+                "\"Version\": \"1.0 SNAP-SHOP\",\n" +
+                "\"Author\": \"Jose Alejandro Lopez Flores\",\n" +
+                "\"Config\": {\n" +
+                "    \"host\": \"" + host + "\",\n" +
+                "    \"database\": \"" + database + "\"  \n" +
+                "  }\n" +
+                "}";
+            
+            File file = new File(source);
+            // Si el archivo no existe es creado
+            if (!file.exists()) {
+                file.createNewFile();
+            }
+            FileWriter fw = new FileWriter(file);
+            BufferedWriter bw = new BufferedWriter(fw);
+            bw.write(contenido);
+            bw.close();
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
 }
