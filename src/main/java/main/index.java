@@ -256,6 +256,9 @@ public class index extends javax.swing.JFrame {
                 if (e.isControlDown() && e.isAltDown() && e.getKeyCode() == 67) {
                     showDialog();
                 }
+                if (e.isControlDown() && e.getKeyCode() == 66) {
+                    btnSearch.doClick();
+                }
             }
         });
     }
