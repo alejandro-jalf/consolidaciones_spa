@@ -231,6 +231,13 @@ public class Origin extends javax.swing.JPanel {
                 "Error de escritura",
                 JOptionPane.WARNING_MESSAGE
             );
+        } else {
+            JOptionPane.showMessageDialog(
+                instancias.getVentana(),
+                "Host y database han sido actualizados con exito",
+                "Exito al cambiar origen",
+                JOptionPane.INFORMATION_MESSAGE
+            );
         }
         
         dialogHostDB.dispose();

@@ -44,6 +44,7 @@ public class controllerConsolidacion {
     private Matcher mat = null;
     private JFrame ventana = null;
     private LoaderInstancias loaderInstancias = null;
+    private String hostConsult = "";
     
     public controllerConsolidacion(LoaderInstancias loaderInstancias, config conf) {
         this.loaderInstancias = loaderInstancias;
@@ -177,7 +178,10 @@ public class controllerConsolidacion {
             listDocumentsSucursales += transferencia + "'";
             listDocumensByReferencia.put("listDocumentsZaragoza", listDocumentsSucursales);
         }
-        if (referencia.equals("spa-centro-punto de venta")) {
+        if (
+            referencia.equals("spa-centro-punto de venta") ||
+            referencia.equals("spa-centro-confiteria")
+        ) {
             listTranferenciasVC = listDocumensByReferencia.getJSONArray("transferenciasCentro");
             listTranferenciasVC.put(transferencia);
             listDocumensByReferencia.put("transferenciasCentro", listTranferenciasVC);
@@ -199,7 +203,10 @@ public class controllerConsolidacion {
             listDocumentsSucursales += transferencia + "'";
             listDocumensByReferencia.put("listDocumentsOluta", listDocumentsSucursales);
         }
-        if (referencia.equals("spa-jaltipan-punto de venta")) {
+        if (
+            referencia.equals("spa-jaltipan-punto de venta") ||
+            referencia.equals("spa-jaltipan-confiteria")
+        ) {
             listTranferenciasJL = listDocumensByReferencia.getJSONArray("transferenciasJaltipan");
             listTranferenciasJL.put(transferencia);
             listDocumensByReferencia.put("transferenciasJaltipan", listTranferenciasJL);
@@ -256,10 +263,14 @@ public class controllerConsolidacion {
             listDocumensByReferencia.put("entradaZaragoza", listEntradasZR);
         }
         if (listDocumensByReferencia.getString("listDocumentsCentro").length() > 0) {
+            hostConsult = (
+                conf.getHostName().equals("LocalHost") &&
+                conf.getDatabaseName().equals("SPACENTRO")
+            ) ? conf.getHostLocal() : conf.getHostVictoria();
             listEntradasVC = models.getEntradasToday(
                 dateInicio,
                 dateFinal,
-                conf.getHostVictoria(),
+                hostConsult,
                 conf.getDatabaseVictoria(),
                 listDocumensByReferencia.getString("listDocumentsCentro")
             );
@@ -286,10 +297,14 @@ public class controllerConsolidacion {
             listDocumensByReferencia.put("entradaOluta", listEntradasOU);
         }
         if (listDocumensByReferencia.getString("listDocumentsJaltipan").length() > 0) {
+            hostConsult = (
+                conf.getHostName().equals("LocalHost") &&
+                conf.getDatabaseName().equals("SPAJALTIPAN")
+            ) ? conf.getHostLocal() : conf.getHostJaltipan();
             listEntradasJL = models.getEntradasToday(
                 dateInicio,
                 dateFinal,
-                conf.getHostJaltipan(),
+                hostConsult,
                 conf.getDatabaseJaltipan(),
                 listDocumensByReferencia.getString("listDocumentsJaltipan")
             );
@@ -301,7 +316,7 @@ public class controllerConsolidacion {
             listDocumensByReferencia.put("entradaJaltipan", listEntradasJL);
         }
         if (listDocumensByReferencia.getString("listDocumentsBodega").length() > 0) {
-            String hostConsult = (
+            hostConsult = (
                 conf.getHostName().equals("LocalHost") &&
                 conf.getDatabaseName().equals("SPABODEGA")
             ) ? conf.getHostLocal() : conf.getHostBodega();
@@ -341,9 +356,15 @@ public class controllerConsolidacion {
         resultado = "Fallo";
         JSONArray dataSucursalesThi = new JSONArray();
         if (referencia.equals("spa-super1-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaZaragoza");
-        if (referencia.equals("spa-centro-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaCentro");
+        if (
+            referencia.equals("spa-centro-punto de venta") ||
+            referencia.equals("spa-centro-confiteria")
+        ) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaCentro");
         if (referencia.equals("spa-oluta-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaOluta");
-        if (referencia.equals("spa-jaltipan-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaJaltipan");
+        if (
+            referencia.equals("spa-jaltipan-punto de venta") ||
+            referencia.equals("spa-jaltipan-confiteria")
+        ) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaJaltipan");
         if (
             referencia.equals("bodega bocardo") ||
             referencia.equals("almacen bocardo") ||
