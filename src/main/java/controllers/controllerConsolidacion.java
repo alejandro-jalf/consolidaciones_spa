@@ -212,6 +212,7 @@ public class controllerConsolidacion {
         }
         if (
             referencia.equals("bodega bocardo") ||
+            referencia.equals("almacen bocardo") ||
             referencia.equals("mercancias en transito") ||
             referencia.equals("spa-almacen")
         ) {
@@ -345,6 +346,7 @@ public class controllerConsolidacion {
         if (referencia.equals("spa-jaltipan-punto de venta")) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaJaltipan");
         if (
             referencia.equals("bodega bocardo") ||
+            referencia.equals("almacen bocardo") ||
             referencia.equals("mercancias en transito") ||
             referencia.equals("spa-almacen")
         ) dataSucursalesThi = listDocumensByReferencia.getJSONArray("entradaBodega");
